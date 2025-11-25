@@ -1,8 +1,19 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import type { Vacancy } from "@shared/schema";
 
 export default function JoinUs() {
+  const { data: vacancies = [], isLoading } = useQuery<Vacancy[]>({
+    queryKey: ["/api/vacancies"],
+    queryFn: async () => {
+      const response = await fetch("/api/vacancies?active=true");
+      if (!response.ok) throw new Error("Failed to fetch vacancies");
+      return response.json();
+    },
+  });
+
   return (
     <div className="pb-20">
       <div className="bg-secondary/50 py-20 mb-16">
@@ -61,27 +72,36 @@ export default function JoinUs() {
         {/* Vacancies */}
         <section id="current-vacancies" className="scroll-mt-24">
           <h2 className="text-3xl font-bold text-primary mb-8">Current Vacancies</h2>
-          <div className="space-y-4">
-            {[
-              { title: "Senior Investment Associate", location: "Johannesburg", type: "Full-time" },
-              { title: "ESG Analyst", location: "Cape Town", type: "Full-time" },
-              { title: "Project Finance Manager", location: "Johannesburg", type: "Full-time" },
-            ].map((job, i) => (
-              <Card key={i} className="hover:border-emerald-500 transition-colors cursor-pointer">
-                <CardContent className="p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                  <div>
-                    <h3 className="text-lg font-bold text-primary">{job.title}</h3>
-                    <div className="flex gap-4 text-sm text-muted-foreground mt-1">
-                      <span>{job.location}</span>
-                      <span>•</span>
-                      <span>{job.type}</span>
+          
+          {isLoading ? (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground">Loading vacancies...</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {vacancies.map((job) => (
+                <Card key={job.id} className="hover:border-emerald-500 transition-colors cursor-pointer" data-testid={`vacancy-card-${job.id}`}>
+                  <CardContent className="p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                      <h3 className="text-lg font-bold text-primary" data-testid={`vacancy-title-${job.id}`}>{job.title}</h3>
+                      <div className="flex gap-4 text-sm text-muted-foreground mt-1">
+                        <span data-testid={`vacancy-location-${job.id}`}>{job.location}</span>
+                        <span>•</span>
+                        <span data-testid={`vacancy-type-${job.id}`}>{job.type}</span>
+                      </div>
                     </div>
-                  </div>
-                  <Button>Apply Now</Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    <Button data-testid={`vacancy-apply-${job.id}`}>Apply Now</Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+
+          {!isLoading && vacancies.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground">No current vacancies. Check back soon!</p>
+            </div>
+          )}
         </section>
       </div>
     </div>

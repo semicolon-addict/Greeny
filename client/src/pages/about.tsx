@@ -1,6 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { useQuery } from "@tanstack/react-query";
+import type { TeamMember } from "@shared/schema";
 
 export default function About() {
+  const { data: teamMembers = [], isLoading } = useQuery<TeamMember[]>({
+    queryKey: ["/api/team-members"],
+  });
+
   return (
     <div className="pb-20">
       <div className="bg-secondary/50 py-20 mb-16">
@@ -49,22 +55,39 @@ export default function About() {
         {/* Meet the Team */}
         <section id="meet-the-team" className="scroll-mt-24">
           <h2 className="text-3xl font-bold text-primary mb-12 text-center">Meet the Team</h2>
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <Card key={i} className="border-none shadow-md overflow-hidden group">
-                <div className="h-64 bg-gray-200 w-full group-hover:scale-105 transition-transform duration-500 flex items-center justify-center text-gray-400">
-                   [Team Member {i}]
-                </div>
-                <CardContent className="pt-6">
-                  <h3 className="font-bold text-lg text-primary">Team Member {i}</h3>
-                  <p className="text-sm text-emerald-600 font-medium mb-2">Managing Director</p>
-                  <p className="text-xs text-muted-foreground">
-                    15+ years in corporate finance and renewable energy.
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          
+          {isLoading ? (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground">Loading team members...</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {teamMembers.map((member) => (
+                <Card key={member.id} className="border-none shadow-md overflow-hidden group" data-testid={`team-member-${member.id}`}>
+                  <div className="h-64 bg-gray-200 w-full group-hover:scale-105 transition-transform duration-500 flex items-center justify-center text-gray-400">
+                    {member.imageUrl ? (
+                      <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover" />
+                    ) : (
+                      `[${member.name}]`
+                    )}
+                  </div>
+                  <CardContent className="pt-6">
+                    <h3 className="font-bold text-lg text-primary" data-testid={`team-name-${member.id}`}>{member.name}</h3>
+                    <p className="text-sm text-emerald-600 font-medium mb-2" data-testid={`team-position-${member.id}`}>{member.position}</p>
+                    <p className="text-xs text-muted-foreground" data-testid={`team-bio-${member.id}`}>
+                      {member.bio}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+
+          {!isLoading && teamMembers.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground">No team members found.</p>
+            </div>
+          )}
         </section>
       </div>
     </div>
