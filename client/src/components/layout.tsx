@@ -48,10 +48,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/">
-            <a className="flex items-center gap-2 font-heading font-bold text-2xl text-primary hover:opacity-80 transition-opacity">
+            <div className="flex items-center gap-2 font-heading font-bold text-2xl text-primary hover:opacity-80 transition-opacity cursor-pointer">
               <Leaf className="h-8 w-8" />
               <span>greeny</span>
-            </a>
+            </div>
           </Link>
 
           {/* Desktop Nav */}
@@ -77,9 +77,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </DropdownMenu>
               ) : (
                 <Link key={item.label} href={item.href}>
-                  <a className={`text-sm font-medium transition-colors hover:text-primary ${location === item.href ? "text-primary font-semibold" : "text-muted-foreground"}`}>
+                  <div className={`text-sm font-medium transition-colors hover:text-primary cursor-pointer ${location === item.href ? "text-primary font-semibold" : "text-muted-foreground"}`}>
                     {item.label}
-                  </a>
+                  </div>
                 </Link>
               )
             ))}
@@ -105,23 +105,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {navItems.map((item) => (
               <div key={item.label} className="flex flex-col gap-2">
                 <Link href={item.href}>
-                  <a 
-                    className="text-lg font-medium py-2 border-b border-border/50"
+                  <div 
+                    className="text-lg font-medium py-2 border-b border-border/50 cursor-pointer"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.label}
-                  </a>
+                  </div>
                 </Link>
                 {item.children && (
                   <div className="pl-4 flex flex-col gap-2">
                     {item.children.map(child => (
                       <Link key={child} href={`${item.href}#${child.toLowerCase().replace(/\s+/g, '-')}`}>
-                        <a 
-                          className="text-sm text-muted-foreground"
+                        <div 
+                          className="text-sm text-muted-foreground cursor-pointer"
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           {child}
-                        </a>
+                        </div>
                       </Link>
                     ))}
                   </div>
