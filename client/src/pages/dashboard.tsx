@@ -40,6 +40,7 @@ function ArticlesTab() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
+  const [articleType, setArticleType] = useState("article");
   const { register, handleSubmit, reset } = useForm<InsertArticle>();
 
   const createMutation = useMutation({
@@ -47,7 +48,7 @@ function ArticlesTab() {
       const response = await fetch("/api/articles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, type: articleType }),
       });
       if (!response.ok) throw new Error("Failed to create article");
       return response.json();
@@ -57,6 +58,7 @@ function ArticlesTab() {
       toast({ title: "Article created successfully" });
       setOpen(false);
       reset();
+      setArticleType("article");
     },
   });
 
@@ -87,7 +89,7 @@ function ArticlesTab() {
             <form onSubmit={handleSubmit((data) => createMutation.mutate(data))} className="space-y-4">
               <div>
                 <Label>Type</Label>
-                <Select {...register("type", { required: true })} defaultValue="article">
+                <Select value={articleType} onValueChange={setArticleType}>
                   <SelectTrigger data-testid="select-article-type">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
@@ -502,16 +504,16 @@ export default function Dashboard() {
       <aside className="w-64 bg-white border-r hidden md:flex flex-col">
         <div className="p-6 border-b">
           <Link href="/">
-            <a className="flex items-center gap-2 font-heading font-bold text-xl text-primary">
+            <div className="flex items-center gap-2 font-heading font-bold text-xl text-primary cursor-pointer">
               <span>greeny</span> <span className="text-xs bg-muted px-2 py-1 rounded text-muted-foreground">Admin</span>
-            </a>
+            </div>
           </Link>
         </div>
         <nav className="flex-1 p-4 space-y-1">
           <Link href="/dashboard">
-            <a className="flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 rounded-lg font-medium">
+            <div className="flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 rounded-lg font-medium cursor-pointer">
               <LayoutDashboard className="h-5 w-5" /> Dashboard
-            </a>
+            </div>
           </Link>
         </nav>
         <div className="p-4 border-t">
