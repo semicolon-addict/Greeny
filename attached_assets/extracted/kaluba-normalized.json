@@ -1,0 +1,91 @@
+{
+  "generatedAt": "2026-04-18T06:43:35.533Z",
+  "sourceRoot": "Kaluba_Website_Assets/Website Development",
+  "footer": {
+    "requiredLinks": [
+      "Terms and Conditions",
+      "Legal and Privacy",
+      "Legal and Privacy should link to following subsections or sub-pages",
+      "Cookie Policy",
+      "Privacy Notice",
+      "PAIA",
+      "Functionality to cater for the update of these pages"
+    ]
+  },
+  "home": {
+    "heroHeadingChange": "Your",
+    "heroBodyChange": "We bridge the gap between",
+    "whoWeAreCopy": "Greenfields is a premier independent advisory firm dedicated to the development sustainable infrastructure and industries. We partner and work with and within countries in developing economies to develop, mobilise finance, build and operate infrastructure and industrial projects while delivering superior economic, financial and social returns.",
+    "backgroundDirection": "that will either use"
+  },
+  "about": {
+    "aboutIntro": "Delivering sustainable finance and advisory services across Africa. We strongly believe in sustainable development and focus on projects that deliver financial, economic and social outcomes for various stakeholders.",
+    "companyNarrative": "Greenfields, also known more affectionately as Greeny, is an independent transaction advisory and economic development consultancy focus on driving sustainable infrastructure and industrial development across the African continent. With a strong specialisation in infrastructure development and finance that brings together the skills and experience of our multinational team that has worked on transactions in excess of R800 billion across project and infrastructure finance, corporate advisory and public and private capital markets, we have built a reputation over the last decade on delivering innovative development and finance solutions for infrastructure and industrial projects. Established over 10 years ago as a majority black women-owned and managed firm, and with a presence in a network of offices in Sub-Saharan Africa, we offer bespoke transaction advisory and support, with a “boots on ground approach” that provides you with local knowledge, culture and expertise.",
+    "purposeStatement": "Please use following text under Our Purpose: We live to accelerate the development of sustainable infrastructure, industry and commerce by unlocking projects and transactions that matter. We ensure that we deliver quality services that support our clients, enable innovation and deliver superior economic, financial and social returns. performance.",
+    "teamNotes": "Please use the following tiles Tiles must show the more information for each team member once clicked on Pictures for Tiles in Folder attached – we can just include pictures from Chest upwards Keep current overall look – and include LinkedIn, Email and Call contact links Siphokazi Mpanza CA(SA) Managing Director 16+ years experience in finance and economic development advisory Kaluba Chipulu CA(SA) Head of Projects and Infrastructure Advisory 14+ years experience in corporate and projects transaction advisory Mpho Mogale CA(SA), FMVA Senior Associate 10+ years experience in corporate and projects transaction advisory and tax structuring Chipasha Lupekesa FMVA, MCom Statistics (cum laude), PGDip Development Finance Senior Analyst 6+ years experience in corporate and projects transaction advisory"
+  },
+  "capabilities": {
+    "serviceTitles": [
+      "Strategic and Policy Advisory",
+      "We provide strategic planning and policy advice to",
+      "Procurement Support",
+      "We have been involved in designing and",
+      "We will provide guidance on the best contract",
+      "Corporate Advisory",
+      "We advise companies on strategic decisions",
+      "Project and Infrastructure Finance",
+      "We advise companies and government on the",
+      "Economic Development Advisory",
+      "Our economic development assessments and",
+      "Transaction Support"
+    ],
+    "serviceExcerpt": "© 2026 Greenfields Greenfields Website\nWebsite Input\nMarch 2026\nCapabilities Page\n\n-- 1 of 7 --\n\n© 2026 Greenfields Greenfields Website 2\nServices\n• Consider having 9 tiles under services\n• Consider tiles that flip when you click or hover over them (Flip cars)\n\n-- 2 of 7 --\n\n© 2026 Greenfields Greenfields Website 3\nServices\nStrategic and Policy Advisory\nWe provide strategic planning and policy advice to\ncompanies and the public to identify and craft the\nbest possible policies and strategies for projects,\nensuring that all aspects of the project are properly\nthought out, planned and managed\nProcurement Support\nWe have been involved in designing and\nevaluating numerous infrastructure procurement\nrequest for qualification and proposal and can help\npublic and private sector clients develop and\nrespond to tenders using the most cost-effective\nand efficient procurement strategies for projects.\nWe will provide guidance on the best contract\nterms, and pricing models to ensure that clients\nget the most value from projects.\nCorporate Advisory\nWe advise companies on strategic decisions\nregarding how to deploy and allocate their capital\nand the best means of structuring and raising\nfinancing. We also offer advice and execution\nsupport for acquisitions, sales, and fundraising to\nensure you achieve your objectives with efficiency\nand confidence.\nProject and Infrastructure Finance\nWe advise companies and government on the\ndevelopment of sustainable infrastructure\nsolutions from opportunity study phases all the\nway to financial close, ensuring that we help you\nstructure and raise structured financing on a\nlimited or non recourse basis\nEconomic Development Advisory\nOur economic development assessments and\nadvisory help clients make informed decisions\nabout their new or existing projects. By providing a\ncomprehensive analysis of the economic impact of\na proposed project, we can help clients measure\nand understand the potential economic costs and\nbenefits associated with their decisions.\nTransaction Support\nWe provide specialized, end-to-end transaction\nsupport solutions for mergers, acquisitions,\ndisposals, and restructurings to maximize deal\nvalue and mitigate risks.\nPPP Advisory\nOur team has been at the part of some of Africa’s\nmost recent PPP deals, providing comprehensive,\nstrategic and commercial legal advice in\nconnection with the development and financing of\nnew PPP pr"
+  },
+  "contact": {
+    "headOfficeAddress": "2 Norwich Close, Sandown, Sandton, 2031, South Africa",
+    "mapDirection": "• Change Phone Number to+27 021 013 7199",
+    "phone": "+27 021 013 7199"
+  },
+  "transactions": {
+    "extractedHighlights": [
+      {
+        "headline": "Transaction Page",
+        "sector": "http://schemas.microsoft.com/office/powerpoint/2010/main",
+        "value": ""
+      },
+      {
+        "headline": "Transactions",
+        "sector": "",
+        "value": ""
+      },
+      {
+        "headline": "Transactions",
+        "sector": "",
+        "value": "Slide Number Placeholder 4"
+      },
+      {
+        "headline": "Transaction Advisory for the Potential Acquisition of a Stake in ROMPCO Pipeline",
+        "sector": "",
+        "value": ""
+      },
+      {
+        "headline": "Transaction Advisory for the development of a Biomass Plant Project",
+        "sector": "",
+        "value": ""
+      }
+    ],
+    "rawSlideCount": 6
+  },
+  "joinUs": {
+    "extractedHighlights": [
+      "Join Us Page",
+      "People and Culture",
+      "Include culture picture provided",
+      "Values",
+      "Consider values being dynamic figures",
+      "Please refer to values on next slide",
+      "Our Values"
+    ],
+    "rawSlideCount": 5
+  }
+}

@@ -1,5 +1,14 @@
+/*
+///////////////////////////////////////////////////
+Author: Shashank Kakad
+Inputs: Updated the shared layout to expose the new pages, refresh the site branding, and improve footer navigation and contact visibility.
+Outcome: All key deliverable pages are now reachable through a cleaner navigation structure and the shared shell better reflects the Green Fields Commercial brief.
+Short Description: Reworked the header and footer navigation while preserving the existing responsive site shell and dashboard exception behavior.
+/////////////////////////////////////////////////////////////
+*/
+
 import { Link, useLocation } from "wouter";
-import { Menu, X, ChevronDown, Leaf } from "lucide-react";
+import { ChevronDown, Mail, MapPin, Menu, Phone, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,184 +17,253 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { footerPolicyLinks, officeLocations, socialLinks } from "@/lib/green-fields-content";
+
+type NavItem = {
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
+};
+
+const navItems: NavItem[] = [
+  {
+    label: "About Us",
+    href: "/about",
+    children: [
+      { label: "The Company", href: "/about#the-company" },
+      { label: "Our Purpose", href: "/about#our-purpose" },
+      { label: "Meet the Team", href: "/about#meet-the-team" },
+    ],
+  },
+  { label: "Our Capabilities", href: "/capabilities" },
+  {
+    label: "Transactions",
+    href: "/transactions",
+    children: [
+      { label: "Client Mandates", href: "/clients" },
+      { label: "Project Highlights", href: "/projects" },
+      { label: "Track Record", href: "/transactions" },
+    ],
+  },
+  { label: "Publications", href: "/publications" },
+  { label: "Join Us", href: "/join-us" },
+  { label: "Contact Us", href: "/contact" },
+];
+
+function isNavItemActive(location: string, href: string) {
+  if (href === "/") {
+    return location === "/";
+  }
+
+  return location === href || location.startsWith(`${href}/`);
+}
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const primaryOffice = officeLocations[0];
+  const brandLogoUrl = "/kaluba/logo.jpg";
 
-  const navItems = [
-    { 
-      label: "About Us", 
-      href: "/about",
-      children: ["The Company", "Our Purpose", "Meet the Team"]
-    },
-    { 
-      label: "Our Capabilities", 
-      href: "/capabilities",
-      children: ["Services", "Sectors"]
-    },
-    { label: "Transactions", href: "/transactions" },
-    { 
-      label: "Insights", 
-      href: "/insights",
-      children: ["Articles", "Publications", "News"]
-    },
-    { 
-      label: "Join Us", 
-      href: "/join-us",
-      children: ["People and Culture", "Our Values", "Vacancies", "Events"]
-    },
-    { label: "Contact Us", href: "/contact" },
-  ];
-
-  // Hide navbar on dashboard
   if (location.startsWith("/dashboard")) {
     return <>{children}</>;
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background font-sans">
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+    <div className="flex min-h-screen flex-col bg-background font-sans">
+      <header className="sticky top-0 z-50 w-full border-b border-[#205E3B]/10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
+        <div className="container mx-auto flex h-20 items-center justify-between px-4">
           <Link href="/">
-            <div className="flex items-center gap-2 font-heading font-bold text-2xl text-primary hover:opacity-80 transition-opacity cursor-pointer">
-              <Leaf className="h-8 w-8" />
-              <span>greeny</span>
+            <div className="flex cursor-pointer items-center gap-3 text-[#205E3B] transition-opacity hover:opacity-85">
+              <div className="h-12 w-12 overflow-hidden rounded-2xl border border-[#205E3B]/15 bg-white">
+                <img src={brandLogoUrl} alt="Greenfields logo" className="h-full w-full object-cover" />
+              </div>
+              <div>
+                <p className="font-heading text-lg font-bold leading-none">Green Fields</p>
+                <p className="text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">Advisory</p>
+              </div>
             </div>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-6">
-            {navItems.map((item) => (
-              item.children ? (
+          <nav className="hidden items-center gap-5 lg:flex">
+            {navItems.map((item) => {
+              const parentIsActive =
+                isNavItemActive(location, item.href) ||
+                Boolean(item.children?.some((child) => isNavItemActive(location, child.href.split("#")[0])));
+
+              if (item.children) {
+                return (
                 <DropdownMenu key={item.label}>
-                  <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-primary transition-colors focus:outline-none">
-                    {item.label} <ChevronDown className="h-4 w-4" />
+                  <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-[#205E3B] focus:outline-none">
+                    <span className={parentIsActive ? "text-[#205E3B]" : ""}>{item.label}</span>
+                    <ChevronDown className="h-4 w-4" />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" className="min-w-48">
                     <DropdownMenuItem asChild>
-                      <Link href={item.href} className="font-semibold w-full cursor-pointer">Overview</Link>
+                      <Link href={item.href} className="w-full cursor-pointer font-semibold text-[#205E3B]">
+                        Overview
+                      </Link>
                     </DropdownMenuItem>
                     {item.children.map((child) => (
-                      <DropdownMenuItem key={child} asChild>
-                        <Link href={`${item.href}#${child.toLowerCase().replace(/\s+/g, '-')}`} className="cursor-pointer">
-                          {child}
+                      <DropdownMenuItem key={child.label} asChild>
+                        <Link href={child.href} className="cursor-pointer">
+                          {child.label}
                         </Link>
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
-              ) : (
+                );
+              }
+
+              return (
                 <Link key={item.label} href={item.href}>
-                  <div className={`text-sm font-medium transition-colors hover:text-primary cursor-pointer ${location === item.href ? "text-primary font-semibold" : "text-muted-foreground"}`}>
+                  <div
+                    className={`cursor-pointer text-sm font-medium transition-colors hover:text-[#205E3B] ${
+                      isNavItemActive(location, item.href) ? "text-[#205E3B]" : "text-muted-foreground"
+                    }`}
+                  >
                     {item.label}
                   </div>
                 </Link>
-              )
-            ))}
+              );
+            })}
             <Link href="/dashboard">
-              <Button variant="outline" size="sm" className="ml-4">
-                Admin
+              <Button variant="outline" size="sm" className="ml-2 border-[#205E3B]/15 text-[#205E3B]">
+                Dashboard
               </Button>
             </Link>
           </nav>
 
-          {/* Mobile Menu Toggle */}
-          <button 
-            className="lg:hidden p-2 text-foreground"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          <button
+            type="button"
+            className="p-2 text-[#205E3B] lg:hidden"
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            onClick={() => setMobileMenuOpen((current) => !current)}
           >
             {mobileMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
 
-        {/* Mobile Nav */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t bg-background absolute w-full p-4 flex flex-col gap-4 shadow-lg animate-in slide-in-from-top-5">
-            {navItems.map((item) => (
-              <div key={item.label} className="flex flex-col gap-2">
-                <Link href={item.href}>
-                  <div 
-                    className="text-lg font-medium py-2 border-b border-border/50 cursor-pointer"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </div>
-                </Link>
-                {item.children && (
-                  <div className="pl-4 flex flex-col gap-2">
-                    {item.children.map(child => (
-                      <Link key={child} href={`${item.href}#${child.toLowerCase().replace(/\s+/g, '-')}`}>
-                        <div 
-                          className="text-sm text-muted-foreground cursor-pointer"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          {child}
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-             <Link href="/dashboard">
-              <Button className="w-full mt-4">
-                Admin Dashboard
-              </Button>
-            </Link>
+          <div className="absolute w-full border-t border-[#205E3B]/10 bg-white p-4 shadow-xl lg:hidden">
+            <div className="flex flex-col gap-4">
+              {navItems.map((item) => (
+                <div key={item.label} className="flex flex-col gap-2">
+                  <Link href={item.href}>
+                    <div
+                      className="cursor-pointer border-b border-border/60 pb-2 text-base font-medium text-[#205E3B]"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </div>
+                  </Link>
+                  {item.children && (
+                    <div className="flex flex-col gap-2 pl-4 text-sm text-muted-foreground">
+                      {item.children.map((child) => (
+                        <Link key={child.label} href={child.href}>
+                          <div className="cursor-pointer" onClick={() => setMobileMenuOpen(false)}>
+                            {child.label}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+              <Link href="/dashboard">
+                <Button
+                  className="mt-2 w-full bg-[#205E3B] text-white hover:bg-[#18492e]"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Open dashboard
+                </Button>
+              </Link>
+            </div>
           </div>
         )}
       </header>
 
-      <main className="flex-1 w-full">
-        {children}
-      </main>
+      <main className="w-full flex-1">{children}</main>
 
-      <footer className="bg-primary text-primary-foreground py-12 mt-auto">
-        <div className="container mx-auto px-4 grid md:grid-cols-4 gap-8">
+      <footer className="mt-auto bg-[#163E28] py-14 text-white">
+        <div className="container mx-auto grid gap-10 px-4 md:grid-cols-2 xl:grid-cols-4">
           <div className="space-y-4">
-            <div className="flex items-center gap-2 font-heading font-bold text-2xl">
-              <Leaf className="h-6 w-6" />
-              <span>greeny</span>
+            <div className="flex items-center gap-3">
+              <div className="h-11 w-11 overflow-hidden rounded-2xl border border-white/10 bg-white/90">
+                <img src={brandLogoUrl} alt="Greenfields logo" className="h-full w-full object-cover" />
+              </div>
+              <div>
+                <p className="font-heading text-lg font-bold">Green Fields</p>
+                <p className="text-xs uppercase tracking-[0.28em] text-white/65">Advisory</p>
+              </div>
             </div>
-            <p className="text-primary-foreground/80 text-sm">
-              Empowering businesses with sustainable financial solutions for a greener future.
+            <p className="max-w-sm text-sm leading-7 text-white/75">
+              Independent advisory focused on sustainable infrastructure and industrial development across Africa.
             </p>
           </div>
-          
+
           <div>
-            <h4 className="font-bold mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-sm text-primary-foreground/80">
+            <h4 className="mb-4 font-heading text-lg font-bold">Pages</h4>
+            <ul className="space-y-3 text-sm text-white/75">
               <li><Link href="/about">About Us</Link></li>
               <li><Link href="/capabilities">Our Capabilities</Link></li>
               <li><Link href="/transactions">Transactions</Link></li>
-              <li><Link href="/insights">Insights</Link></li>
+              <li><Link href="/publications">Publications</Link></li>
+              <li><Link href="/join-us">Join Us</Link></li>
+              <li><Link href="/contact">Contact Us</Link></li>
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-bold mb-4">Contact</h4>
-            <ul className="space-y-2 text-sm text-primary-foreground/80">
-              <li>info@greeny.co.za</li>
-              <li>+27 11 123 4567</li>
-              <li>123 Green Street, Sandton, South Africa</li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold mb-4">Newsletter</h4>
-            <div className="flex gap-2">
-              <input 
-                type="email" 
-                placeholder="Your email" 
-                className="bg-white/10 border border-white/20 rounded px-3 py-2 text-sm w-full placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
-              />
-              <Button variant="secondary" size="sm">Subscribe</Button>
+          <div className="space-y-4">
+            <h4 className="font-heading text-lg font-bold">Head Office</h4>
+            <div className="space-y-3 text-sm text-white/75">
+              <div className="flex items-start gap-3">
+                <MapPin className="mt-0.5 h-4 w-4 text-[#A6E79F]" />
+                <div>
+                  <p>{primaryOffice.addressLineOne}</p>
+                  <p>{primaryOffice.addressLineTwo}</p>
+                  <p>{primaryOffice.country}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone className="h-4 w-4 text-[#A6E79F]" />
+                <a href={`tel:${primaryOffice.phone.replace(/\s+/g, "")}`}>{primaryOffice.phone}</a>
+              </div>
+              {primaryOffice.email && (
+                <div className="flex items-center gap-3">
+                  <Mail className="h-4 w-4 text-[#A6E79F]" />
+                  <a href={`mailto:${primaryOffice.email}`}>{primaryOffice.email}</a>
+                </div>
+              )}
             </div>
           </div>
+
+          <div className="space-y-4">
+            <h4 className="font-heading text-lg font-bold">Policy Links</h4>
+            <ul className="space-y-3 text-sm text-white/75">
+              {footerPolicyLinks.map((policyLink) => (
+                <li key={policyLink}>{policyLink}</li>
+              ))}
+            </ul>
+            {socialLinks.length > 0 && (
+              <div>
+                <h5 className="pt-2 font-heading text-base font-semibold">Stay Connected</h5>
+                <ul className="mt-3 space-y-3 text-sm text-white/75">
+                  {socialLinks.map((socialLink) => (
+                    <li key={socialLink.label}>
+                      <a href={socialLink.href} target="_blank" rel="noreferrer" className="transition-colors hover:text-white">
+                        {socialLink.label}
+                      </a>
+                      <p className="mt-1 text-white/50">{socialLink.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="container mx-auto px-4 mt-12 pt-8 border-t border-white/10 text-center text-sm text-primary-foreground/60">
-          © 2025 Greeny. All rights reserved.
+        <div className="container mx-auto mt-12 border-t border-white/10 px-4 pt-6 text-center text-sm text-white/55">
+          (c) 2026 Greenfields. All rights reserved.
         </div>
       </footer>
     </div>

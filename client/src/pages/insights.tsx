@@ -49,7 +49,19 @@ export default function Insights() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {articles.map((item) => (
             <Card key={item.id} className="flex flex-col h-full hover:shadow-lg transition-shadow border-none bg-white shadow-sm" data-testid={`article-card-${item.id}`}>
-              <div className="h-48 bg-muted w-full animate-pulse" />
+              {item.imageUrl ? (
+                <img src={item.imageUrl} alt={`${item.title} cover`} className="h-48 w-full object-cover" />
+              ) : (
+                <div className="relative h-48 w-full overflow-hidden bg-[linear-gradient(135deg,#205E3B_0%,#2E8B7F_100%)]">
+                  <div aria-hidden className="absolute -top-10 right-[-20px] h-32 w-32 rounded-full bg-white/20 blur-2xl" />
+                  <div aria-hidden className="absolute -bottom-10 left-[-20px] h-32 w-32 rounded-full bg-black/10 blur-2xl" />
+                  <div className="absolute inset-0 flex items-end p-4">
+                    <span className="rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/90">
+                      {item.type}
+                    </span>
+                  </div>
+                </div>
+              )}
               <CardHeader>
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider" data-testid={`article-type-${item.id}`}>{item.type}</span>
